@@ -61,7 +61,7 @@ export function FieldOpsDashboard({ jobs, activity }: FieldOpsDashboardProps) {
       <div className="flex min-h-screen">
         <Sidebar />
 
-        <section className="flex-1 px-4 py-5 sm:px-6 lg:px-8">
+        <section className="min-w-0 flex-1 px-4 py-5 sm:px-6 lg:px-8">
           <header className="mb-8 flex flex-col justify-between gap-4 rounded-3xl border border-white/10 bg-white/[0.04] px-5 py-5 shadow-2xl shadow-black/20 sm:flex-row sm:items-center">
             <div>
               <p className="text-sm text-cyan-300">Operations Command Center</p>

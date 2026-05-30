@@ -1,7 +1,7 @@
 import { CheckCircle2 } from "lucide-react"
 
 import type { Job } from "../types"
-import { formatCurrency } from "../utils/calculations"
+import { formatCurrency, getStatusStyles } from "../utils/calculations"
 
 type RecentJobsProps = {
   jobs: Job[]
@@ -32,7 +32,11 @@ export function RecentJobs({ jobs }: RecentJobsProps) {
               <p className="text-sm text-slate-400">{job.serviceType}</p>
             </div>
 
-            <span className="w-fit rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-medium text-cyan-200">
+            <span
+              className={`w-fit rounded-full border px-3 py-1 text-xs font-medium ${getStatusStyles(
+                  job.status
+              )}`}
+            >
               {job.status}
             </span>
 

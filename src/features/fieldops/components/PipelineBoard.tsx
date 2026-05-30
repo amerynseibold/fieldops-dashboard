@@ -3,7 +3,11 @@
 import { useState } from "react"
 
 import type { Job, JobStatus } from "../types"
-import { formatCurrency } from "../utils/calculations"
+import {
+  formatCurrency,
+  getPriorityStyles,
+  getStatusStyles,
+} from "../utils/calculations"
 import { JobDetailDrawer } from "./JobDetailDrawer"
 
 type PipelineBoardProps = {
@@ -53,9 +57,13 @@ export function PipelineBoard({ jobs }: PipelineBoardProps) {
               >
                 <div className="mb-3 flex items-start justify-between gap-3">
                   <div>
-                    <p className="text-sm font-semibold text-slate-100">
+                    <span
+                      className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${getStatusStyles(
+                        status
+                      )}`}
+                    >
                       {status}
-                    </p>
+                    </span>
                     <p className="mt-1 text-xs text-slate-500">
                       {statusJobs.length} jobs · {formatCurrency(columnValue)}
                     </p>
@@ -85,8 +93,12 @@ export function PipelineBoard({ jobs }: PipelineBoardProps) {
                             </p>
                           </div>
 
-                          <span className="rounded-full bg-amber-300/10 px-2 py-1 text-xs font-medium text-amber-200">
-                            {job.priority}
+                          <span
+                           className={`rounded-full px-2 py-1 text-xs font-medium ${getPriorityStyles(
+                               job.priority
+                           )}`}
+                           >
+                           {job.priority}
                           </span>
                         </div>
 
