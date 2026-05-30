@@ -19,6 +19,7 @@ import { FollowUpQueue } from "./FollowUpQueue"
 import { MetricCard } from "./MetricCard"
 import { RecentJobs } from "./RecentJobs"
 import { Sidebar } from "./Sidebar"
+import { PipelineBoard } from "./PipelineBoard"
 
 type FieldOpsDashboardProps = {
   jobs: Job[]
@@ -91,6 +92,8 @@ export function FieldOpsDashboard({ jobs, activity }: FieldOpsDashboardProps) {
               />
             ))}
           </div>
+
+          <PipelineBoard jobs={jobs} />
 
           <div className="mt-6 grid gap-6 xl:grid-cols-[1.3fr_0.7fr]">
             <RecentJobs jobs={jobs} />
