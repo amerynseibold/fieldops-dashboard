@@ -1,5 +1,6 @@
 "use client"
 
+import { ArrowRight, Eye } from "lucide-react"
 import { useState } from "react"
 
 import type { Job, JobStatus } from "../types"
@@ -64,6 +65,7 @@ export function PipelineBoard({ jobs }: PipelineBoardProps) {
                     >
                       {status}
                     </span>
+
                     <p className="mt-1 text-xs text-slate-500">
                       {statusJobs.length} jobs · {formatCurrency(columnValue)}
                     </p>
@@ -81,7 +83,7 @@ export function PipelineBoard({ jobs }: PipelineBoardProps) {
                         type="button"
                         key={job.id}
                         onClick={() => setSelectedJob(job)}
-                        className="w-full rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-cyan-300/30 hover:bg-cyan-300/[0.04]"
+                        className="w-full cursor-pointer rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-cyan-300/30 hover:bg-cyan-300/[0.04]"
                       >
                         <div className="mb-3 flex items-start justify-between gap-3">
                           <div>
@@ -94,11 +96,11 @@ export function PipelineBoard({ jobs }: PipelineBoardProps) {
                           </div>
 
                           <span
-                           className={`rounded-full px-2 py-1 text-xs font-medium ${getPriorityStyles(
-                               job.priority
-                           )}`}
-                           >
-                           {job.priority}
+                            className={`rounded-full px-2 py-1 text-xs font-medium ${getPriorityStyles(
+                              job.priority
+                            )}`}
+                          >
+                            {job.priority}
                           </span>
                         </div>
 
@@ -120,6 +122,15 @@ export function PipelineBoard({ jobs }: PipelineBoardProps) {
                             Scheduled: {job.scheduledDate}
                           </p>
                         )}
+
+                        <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3 text-xs text-slate-500">
+                          <span className="inline-flex items-center gap-1">
+                            <Eye size={14} />
+                            View details
+                          </span>
+
+                          <ArrowRight size={14} className="text-cyan-300" />
+                        </div>
                       </button>
                     ))
                   ) : (
