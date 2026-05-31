@@ -1,9 +1,13 @@
+"use client"
+
+
 import {
   BriefcaseBusiness,
   CalendarDays,
   DollarSign,
   TrendingUp,
 } from "lucide-react"
+import { useState } from "react"
 
 import type { ActivityItem, Job } from "../types"
 import {
@@ -21,12 +25,31 @@ import { RecentJobs } from "./RecentJobs"
 import { Sidebar } from "./Sidebar"
 import { PipelineBoard } from "./PipelineBoard"
 
+
 type FieldOpsDashboardProps = {
   jobs: Job[]
   activity: ActivityItem[]
 }
 
-export function FieldOpsDashboard({ jobs, activity }: FieldOpsDashboardProps) {
+export function FieldOpsDashboard({
+  jobs: initialJobs,
+  activity,
+}: FieldOpsDashboardProps) {
+  const [jobs, setJobs] = useState(initialJobs)
+
+  function handleUpdateJobStatus(jobId: string, status: Job["status"]) {
+    setJobs((currentJobs) =>
+      currentJobs.map((job) =>
+        job.id === jobId
+          ? {
+            ...job,
+            status,
+          }
+          : job
+      )
+    )
+  }
+
   const followUpJobs = getFollowUpJobs(jobs)
 
   const stats = [
@@ -93,7 +116,7 @@ export function FieldOpsDashboard({ jobs, activity }: FieldOpsDashboardProps) {
             ))}
           </div>
 
-          <PipelineBoard jobs={jobs} />
+          <PipelineBoard jobs={jobs} onUpdateJobStatus={handleUpdateJobStatus} />
 
           <div className="mt-6 grid gap-6 xl:grid-cols-[1.3fr_0.7fr]">
             <RecentJobs jobs={jobs} />
