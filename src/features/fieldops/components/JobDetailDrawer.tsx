@@ -9,6 +9,17 @@ type JobDetailDrawerProps = {
     onUpdateJobStatus: (jobId: string, status: JobStatus) => void
 }
 
+const jobStatuses: JobStatus[] = [
+    "New Lead",
+    "Quoted",
+    "Approved",
+    "Scheduled",
+    "In Progress",
+    "Completed",
+    "Paid",
+    "Lost",
+]
+
 export function JobDetailDrawer({
     job,
     onClose,
@@ -140,6 +151,31 @@ export function JobDetailDrawer({
                         </p>
                     </div>
                 )}
+
+                <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <p className="text-sm font-semibold text-slate-100">Status Override</p>
+                            <p className="mt-1 text-sm text-slate-500">
+                                Manually move this job if it was updated by mistake.
+                            </p>
+                        </div>
+
+                        <select
+                            value={job.status}
+                            onChange={(event) =>
+                                onUpdateJobStatus(job.id, event.target.value as JobStatus)
+                            }
+                            className="rounded-2xl border border-white/10 bg-[#050812] px-4 py-3 text-sm font-semibold text-slate-100 outline-none transition focus:border-cyan-300/40"
+                        >
+                            {jobStatuses.map((status) => (
+                                <option key={status} value={status} className="bg-[#050812]">
+                                    {status}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
 
                 <div className="mt-6 space-y-3">
                     <div>
