@@ -8,6 +8,7 @@ import {
   TrendingUp,
 } from "lucide-react"
 import { useState } from "react"
+import { AddNewJobModal } from "./AddNewJobModal"
 
 import type { ActivityItem, Job } from "../types"
 import {
@@ -36,6 +37,7 @@ export function FieldOpsDashboard({
   activity,
 }: FieldOpsDashboardProps) {
   const [jobs, setJobs] = useState(initialJobs)
+  const [isAddJobModalOpen, setIsAddJobModalOpen] = useState(false)
 
   function handleUpdateJobStatus(jobId: string, status: Job["status"]) {
     setJobs((currentJobs) =>
@@ -48,6 +50,10 @@ export function FieldOpsDashboard({
           : job
       )
     )
+  }
+
+  function handleAddJob(job: Job) {
+    setJobs((currentJobs) => [job, ...currentJobs])
   }
 
   const followUpJobs = getFollowUpJobs(jobs)
@@ -99,7 +105,11 @@ export function FieldOpsDashboard({
               </p>
             </div>
 
-            <button className="rounded-2xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-950/30 transition hover:bg-cyan-200">
+            <button
+              type="button"
+              onClick={() => setIsAddJobModalOpen(true)}
+              className="rounded-2xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-950/30 transition hover:bg-cyan-200"
+            >
               Add New Job
             </button>
           </header>
@@ -126,6 +136,11 @@ export function FieldOpsDashboard({
           <ActivityFeed activity={activity} />
         </section>
       </div>
+      <AddNewJobModal
+        isOpen={isAddJobModalOpen}
+        onClose={() => setIsAddJobModalOpen(false)}
+        onAddJob={handleAddJob}
+      />
     </main>
   )
 }
