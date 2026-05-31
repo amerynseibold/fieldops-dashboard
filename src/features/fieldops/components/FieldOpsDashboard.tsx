@@ -27,6 +27,7 @@ import { Sidebar } from "./Sidebar"
 import { PipelineBoard } from "./PipelineBoard"
 
 
+
 type FieldOpsDashboardProps = {
   jobs: Job[]
   activity: ActivityItem[]
@@ -37,9 +38,25 @@ export function FieldOpsDashboard({
   activity,
 }: FieldOpsDashboardProps) {
   const [jobs, setJobs] = useState(initialJobs)
+  const [activityItems, setActivityItems] = useState(activity)
   const [isAddJobModalOpen, setIsAddJobModalOpen] = useState(false)
 
+  function addActivity(title: string, description: string, jobId: string) {
+    setActivityItems((currentActivity) => [
+      {
+        id: `activity-${Date.now()}`,
+        jobId,
+        title,
+        description,
+        timestamp: "Just now",
+      },
+      ...currentActivity,
+    ])
+  }
+
   function handleUpdateJobStatus(jobId: string, status: Job["status"]) {
+    const jobToUpdate = jobs.find((job) => job.id === jobId)
+
     setJobs((currentJobs) =>
       currentJobs.map((job) =>
         job.id === jobId
@@ -50,10 +67,24 @@ export function FieldOpsDashboard({
           : job
       )
     )
+
+    if (jobToUpdate && jobToUpdate.status !== status) {
+      addActivity(
+        "Status updated",
+        `${jobToUpdate.customerName} moved from ${jobToUpdate.status} to ${status}.`,
+        jobId
+      )
+    }
   }
 
   function handleAddJob(job: Job) {
     setJobs((currentJobs) => [job, ...currentJobs])
+
+    addActivity(
+      "New job added",
+      `${job.customerName} was added to the ${job.status} stage.`,
+      job.id
+    )
   }
 
   const followUpJobs = getFollowUpJobs(jobs)
@@ -133,7 +164,7 @@ export function FieldOpsDashboard({
             <FollowUpQueue jobs={followUpJobs} />
           </div>
 
-          <ActivityFeed activity={activity} />
+          <ActivityFeed activity={activityItems} />
         </section>
       </div>
       <AddNewJobModal
